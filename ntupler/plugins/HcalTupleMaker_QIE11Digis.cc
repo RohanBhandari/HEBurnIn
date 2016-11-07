@@ -1,7 +1,5 @@
 #include <iostream>
 #include "HEBurnIn/ntupler/interface/HcalTupleMaker_QIE11Digis.h"
-//#include "DataFormats/HcalDigi/interface/HcalLaserDigi.h"
-//#include "DataFormats/Common/interface/Handle.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/Event.h"
 
@@ -75,26 +73,26 @@ HcalTupleMaker_QIE11Digis::HcalTupleMaker_QIE11Digis(const edm::ParameterSet& iC
 //consumes<QIE10DigiCollection>(m_qie10DigisTag);
 
     
-  produces<std::vector<int>   >                  ( "ieta"      );
-  produces<std::vector<int>   >                  ( "iphi"      );
-  produces<std::vector<int>   >                  ( "depth"     );
+  produces<std::vector<int>   >                  ( "rm"      );
+  produces<std::vector<int>   >                  ( "fiber"   );
+  produces<std::vector<int>   >                  ( "channel" );
   produces<std::vector<int>   >                  ( "linkErr" );
-  produces<std::vector<std::vector<int>   > >    ( "soi"       );
-  produces<std::vector<std::vector<int>   > >    ( "digiADC"       );
-  produces<std::vector<std::vector<double>   > > ( "digiFC"        );
-  produces<std::vector<std::vector<int>   > >    ( "capID"     );
+  produces<std::vector<std::vector<int>   > >    ( "soi"     );
+  produces<std::vector<std::vector<int>   > >    ( "digiADC" );
+  produces<std::vector<std::vector<double>   > > ( "digiFC"  );
+  produces<std::vector<std::vector<int>   > >    ( "capID"   );
 }
 
 void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
-  std::auto_ptr<std::vector<int> >                    _ieta   ( new std::vector<int>   ());
-  std::auto_ptr<std::vector<int> >                    _iphi   ( new std::vector<int>   ());
-  std::auto_ptr<std::vector<int> >                    _depth  ( new std::vector<int>   ());
-  std::auto_ptr<std::vector<int> >                    _linkEr ( new std::vector<int>   ());
-  std::auto_ptr<std::vector<std::vector<int  > > >    _soi    ( new std::vector<std::vector<int  > >   ());
-  std::auto_ptr<std::vector<std::vector<int  > > >    _adc    ( new std::vector<std::vector<int  > >    ());
-  std::auto_ptr<std::vector<std::vector<double  > > > _fc     ( new std::vector<std::vector<double  > > ());
-  std::auto_ptr<std::vector<std::vector<int  > > >    _capid  ( new std::vector<std::vector<int  > >    ());
+  std::auto_ptr<std::vector<int> >                    _rm      ( new std::vector<int>   ());
+  std::auto_ptr<std::vector<int> >                    _fiber   ( new std::vector<int>   ());
+  std::auto_ptr<std::vector<int> >                    _channel ( new std::vector<int>   ());
+  std::auto_ptr<std::vector<int> >                    _linkEr  ( new std::vector<int>   ());
+  std::auto_ptr<std::vector<std::vector<int  > > >    _soi     ( new std::vector<std::vector<int  > >    ());
+  std::auto_ptr<std::vector<std::vector<int  > > >    _adc     ( new std::vector<std::vector<int  > >    ());
+  std::auto_ptr<std::vector<std::vector<double  > > > _fc      ( new std::vector<std::vector<double  > > ());
+  std::auto_ptr<std::vector<std::vector<int  > > >    _capid   ( new std::vector<std::vector<int  > >    ());
     
   //
   edm::Handle<HcalDataFrameContainer<QIE11DataFrame> >  qie11Digis;
@@ -112,10 +110,10 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
 
     HcalCalibDetId hcalcalib = HcalCalibDetId(detid);
 
-    _ieta   -> push_back ( hcalcalib.rm()      );
-    _iphi   -> push_back ( hcalcalib.fiber()   );
-    _depth  -> push_back ( hcalcalib.channel() );
-    _linkEr -> push_back ( qie11df.linkError() );
+    _rm      -> push_back ( hcalcalib.rm()      );
+    _fiber   -> push_back ( hcalcalib.fiber()   );
+    _channel -> push_back ( hcalcalib.channel() );
+    _linkEr  -> push_back ( qie11df.linkError() );
     
     if (0){
       std::cout << "Printing raw dataframe" << std::endl;
@@ -148,12 +146,12 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
   }
 
   //  
-  iEvent.put( _ieta          , "ieta"      ); 
-  iEvent.put( _iphi          , "iphi"      ); 
-  iEvent.put( _depth         , "depth"     ); 
-  iEvent.put( _linkEr        , "linkErr" );
-  iEvent.put( _soi           , "soi"       );
-  iEvent.put( _adc           , "digiADC"       );
-  iEvent.put( _fc            , "digiFC"        );
-  iEvent.put( _capid         , "capID"     ); 
+  iEvent.put( _rm      , "rm"      ); 
+  iEvent.put( _fiber   , "fiber"   ); 
+  iEvent.put( _channel , "channel" ); 
+  iEvent.put( _linkEr  , "linkErr" );
+  iEvent.put( _soi     , "soi"     );
+  iEvent.put( _adc     , "digiADC" );
+  iEvent.put( _fc      , "digiFC"  );
+  iEvent.put( _capid   , "capID"   ); 
 }
