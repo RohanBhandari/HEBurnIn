@@ -106,7 +106,7 @@ process.es_ascii = cms.ESSource('HcalTextCalibrations',
         input = cms.VPSet(
                cms.PSet(
                 object = cms.string('ElectronicsMap'),
-                file = cms.FileInPath('HEBurnIn/ntupler/data/2016-nov-07/HE1-18_904_emap.txt')  # EMAP here!
+                file = cms.FileInPath('HEBurnIn/ntupler/data/2016-nov-07/HEall_904_emap.txt')  # EMAP here!
                )
         )
 )
